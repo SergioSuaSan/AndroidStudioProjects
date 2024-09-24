@@ -1,7 +1,6 @@
 package net.azarquiel.juegodenumerosjpc
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -31,41 +30,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.azarquiel.juegodenumerosjpc.ui.theme.JuegoDeNumerosJPCTheme
-import kotlin.random.Random
 
 class MainActivity : ComponentActivity() {
 
-    private var azar: Int = 0
-    private var contador: Int = 0
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        var random = Random(seed = System.currentTimeMillis())
-        azar = (1..100).random(random)
-        Log.d("sergio","$azar")
+
 
         setContent {
             JuegoDeNumerosJPCTheme {
-                MainScreen()
+                MainScreen(MyViewModel())
             }
         }
     }
 
-    @Preview(showBackground = true)
+
     @Composable
-    private fun MainScreen() {
+    private fun MainScreen(myViewModel: MyViewModel) {
         Scaffold(
             // Barra superior
             topBar = { CustomTopBar() },
             // Contenido principal
             content = { padding ->
                 CustomContent(padding, )
+
             }
         )
     }
@@ -82,7 +78,7 @@ class MainActivity : ComponentActivity() {
         ){
 
             Text(
-                text = "Intentos: $contador",
+                text = "Intentos: ",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(10.dp)
@@ -101,14 +97,14 @@ class MainActivity : ComponentActivity() {
             // Contenido de la aplicación
             content = {
 
-                Contenido(this@MainActivity.azar)
+                Contenido(numeroAleatorio)
 
             }
         )
     }
 
     @Composable
-    fun Contenido( azar: Int) {
+    fun Contenido(numeroAleatorio: Int) {
         var n by rememberSaveable { mutableStateOf(50)}
 
 
@@ -131,14 +127,14 @@ class MainActivity : ComponentActivity() {
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(
-                    onClick = { n--; this@MainActivity.contador++; comparacion(n, azar) },
+                    onClick = { n--; this@MainActivity.contador++; comparacion(n, numeroAleatorio) },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.purple_700))
                 ) {
                     Text("-1")
                 }
                 Spacer(modifier = Modifier.padding(8.dp))
                 Button(
-                    onClick = { n++; this@MainActivity.contador++; comparacion(n, azar)  },
+                    onClick = { n++; this@MainActivity.contador++; comparacion(n, numeroAleatorio)  },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.purple_700))
                 ) {
                     Text("+1")
@@ -147,14 +143,14 @@ class MainActivity : ComponentActivity() {
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(
-                    onClick = { n-=5; this@MainActivity.contador++; comparacion(n, azar)  },
+                    onClick = { n-=5; this@MainActivity.contador++; comparacion(n, numeroAleatorio)  },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.purple_700))
                 ) {
                     Text("-5 ${this@MainActivity.contador}")
                 }
                 Spacer(modifier = Modifier.padding(8.dp))
                 Button(
-                    onClick = { n+=5; this@MainActivity.contador++ ; comparacion(n, azar) },
+                    onClick = { n+=5; this@MainActivity.contador++ ; comparacion(n, numeroAleatorio) },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.purple_700))
                 ) {
                     Text("+5")
@@ -163,14 +159,14 @@ class MainActivity : ComponentActivity() {
             }
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Button(
-                    onClick = { n-=10; this@MainActivity.contador++; comparacion(n, azar)  },
+                    onClick = { n-=10; this@MainActivity.contador++; comparacion(n, numeroAleatorio)  },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.purple_700))
                 ) {
                     Text("-10")
                 }
                 Spacer(modifier = Modifier.padding(8.dp))
                 Button(
-                    onClick = { n+=10; this@MainActivity.contador++; comparacion(n, azar)  },
+                    onClick = { n+=10; this@MainActivity.contador++; comparacion(n, numeroAleatorio)  },
                     colors = ButtonDefaults.buttonColors(colorResource(R.color.purple_700))
                 ) {
                     Text("+10")
@@ -180,10 +176,10 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun comparacion(n: Int, azar: Int) {
-        if (n < this.azar) {
+    private fun comparacion(n: Int, numeroAleatorio: Int) {
+        if (n < this.numeroAleatorio) {
             Toast.makeText(this, "El número es mayor", Toast.LENGTH_SHORT).show()
-        } else if (n > this.azar) {
+        } else if (n > this.numeroAleatorio) {
             Toast.makeText(this, "El número es menor", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Has acertado", Toast.LENGTH_SHORT).show()        }
