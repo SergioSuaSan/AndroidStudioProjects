@@ -8,16 +8,17 @@ class MyViewModel: ViewModel() {
     private val _numeroAleatorio = MutableLiveData<Int>()
     val numeroAleatorio: LiveData<Int> = _numeroAleatorio
 
-
-    fun generarNumeroAleatorio() {
+    init {
         _numeroAleatorio.value = (1..100).random()
     }
 
-    private val _contador = MutableLiveData<Int>()
-    val contador: LiveData<Int> = _contador
+    private val _intentos = MutableLiveData<Int>()
+    val intentos: LiveData<Int> = _intentos
 
-    fun incrementarContador() {
-        _contador.value = (_contador.value ?: 0) + 1
+    fun incrementarIntentos() {
+        _intentos.value = (_intentos.value ?: 0) + 1
     }
+
+
 
 }
