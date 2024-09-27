@@ -19,6 +19,12 @@ class MyViewModel: ViewModel() {
         _intentos.value = (_intentos.value ?: 0) + 1
     }
 
+    fun reiniciarJuego() {
+        _numeroAleatorio.value = (1..100).random()
+        _intentos.value = 0
+    }
+
+
 
 
 }
