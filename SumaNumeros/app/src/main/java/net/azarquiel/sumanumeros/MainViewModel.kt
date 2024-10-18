@@ -16,6 +16,8 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     val msg: LiveData<String> = _msg
     private val _color = MutableLiveData<Color>()
     val color: MutableLiveData<Color> = _color
+    private val _tiempo = MutableLiveData<Long>()
+
 
 
     private val _aciertos = MutableLiveData<Int>()
@@ -42,6 +44,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
 
     init {
+
       newGame()
     }
 
@@ -51,10 +54,10 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     fun onClick(n: Int) {
         if (operacion == 1) {
             _num1.value = n
-            operacion = 2
+            operacion++
         } else {
             _num2.value = n
-            operacion = 1
+            operacion--
             _resultado.value = num1.value!! + num2.value!!
             _color.value = Color.Red
             if (resultado.value == numero.value) {
@@ -79,7 +82,8 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     private fun gameOver() {
-        _msg.value = "Has conseguido ${aciertos.value} aciertos en ${intentos.value} intentos"
+        _tiempo.value = (System.currentTimeMillis() - _tiempo.value!!)/1000
+        _msg.value = "Has conseguido ${aciertos.value} aciertos en ${_tiempo.value} segundos"
         _openDialog.value = true
     }
 
@@ -88,6 +92,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     fun newGame() {
+        _tiempo.value = System.currentTimeMillis()
         _openDialog.value = false
         _aciertos.value = 0
         _intentos.value = 0
