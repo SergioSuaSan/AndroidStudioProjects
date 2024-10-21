@@ -109,7 +109,7 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text ="$num1",
+                text = if (num1 == 0) "" else "$num1",
                 fontSize = 100.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -120,7 +120,7 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text ="$num2",
+                text = if (num2 == 0) "" else "$num2",
                 fontSize = 100.sp,
                 fontWeight = FontWeight.Bold
             )

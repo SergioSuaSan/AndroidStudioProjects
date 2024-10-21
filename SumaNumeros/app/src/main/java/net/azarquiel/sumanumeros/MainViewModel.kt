@@ -1,9 +1,12 @@
 package net.azarquiel.sumanumeros
 
+import android.os.SystemClock
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 import kotlin.random.Random
 
 class MainViewModel(mainActivity: MainActivity) : ViewModel() {
@@ -33,6 +36,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     private val _num2 = MutableLiveData<Int>()
     val num2: LiveData<Int> = _num2
     var operacion = 1
+    var dormido = false
 
 
 
@@ -52,10 +56,12 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
 
     fun onClick(n: Int) {
+        if (dormido) return
         if (operacion == 1) {
             _num1.value = n
             operacion++
         } else {
+            dormido = true
             _num2.value = n
             operacion--
             _resultado.value = num1.value!! + num2.value!!
@@ -68,7 +74,15 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
             if (_intentos.value == 5) {
                 gameOver()
             }
-            resetear()
+
+            GlobalScope.launch {
+                SystemClock.sleep(200)
+                launch(Main) {
+                    resetear()
+
+                }
+            }
+
         }
 
 
@@ -79,6 +93,8 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
         _num1.value = 0
         _num2.value = 0
         _resultado.value = 0
+        _color.value = Color.White
+        dormido = false
     }
 
     private fun gameOver() {
