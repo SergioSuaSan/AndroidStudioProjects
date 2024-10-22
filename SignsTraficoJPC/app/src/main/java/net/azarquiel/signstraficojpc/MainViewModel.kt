@@ -66,10 +66,11 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
             Toast.makeText(mainActivity, "Incorrecto", Toast.LENGTH_SHORT).show()
             _color.value = Color.Red
         }
-        dormido = true
         GlobalScope.launch {
+            dormido = true
             SystemClock.sleep(200)
             launch(Main) {
+                dormido = false
                 if (_intentos.value!! < 10) {
                     _intentos.value = _intentos.value!! + 1
                     newIntento()
@@ -113,7 +114,6 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
         azar = (0..3).random()
         _signBuscar.value = jugadaArray[azar]
         _color.value = Color.White
-        dormido = false
 
     }
 
