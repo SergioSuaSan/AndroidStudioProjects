@@ -30,10 +30,13 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     val msg: LiveData<String> = _msg
     private val _color: MutableLiveData<Color> = MutableLiveData(Color.White)
     val color: LiveData<Color> = _color
+    private val _tiempo: MutableLiveData<Long> = MutableLiveData(0)
 
+    var tiempototal = 0.0
     var dormido = false
     private var azar: Int = 0
     val mainActivity by lazy { mainActivity }
+
 
     val signsArray = Array<Signal>(400) { Signal()}
     val jugadaArray = Array<Signal>(4) { Signal()}
@@ -90,10 +93,13 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
         _aciertos.value = 0
         _intentos.value = 1
         _color.value = Color.White
+        _tiempo.value = System.currentTimeMillis()
 
     }
     private fun gameOver() {
-        _msg.value = "Has conseguido ${_aciertos.value} aciertos de 10 intentos"
+        _tiempo.value = (System.currentTimeMillis() - _tiempo.value!!)
+        tiempototal = _tiempo.value!!.toDouble() / 1000
+        _msg.value = "Has conseguido ${_aciertos.value} aciertos de $tiempototal segundos"
         _openDialog.value = true
 
     }
