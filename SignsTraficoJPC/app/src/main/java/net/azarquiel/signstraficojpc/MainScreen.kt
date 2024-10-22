@@ -97,11 +97,12 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
             Column (
                 modifier = Modifier
                     .fillMaxWidth()
-                    .fillMaxHeight(0.5F)
+                    .fillMaxHeight()
                     .background(color.value!!),
             ){
                 Row (
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth()
+                        .fillMaxHeight(.5F),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
 
@@ -116,6 +117,7 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                 Row (
                     modifier = Modifier
                         .fillMaxSize()
+                        .padding(10.dp)
                         ,
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,

@@ -31,6 +31,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     private val _color: MutableLiveData<Color> = MutableLiveData(Color.White)
     val color: LiveData<Color> = _color
 
+    var dormido = false
     private var azar: Int = 0
     val mainActivity by lazy { mainActivity }
 
@@ -56,6 +57,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     fun onCLickSign(i: Int) {
+        if (dormido) return
         if (i == azar) {
             Toast.makeText(mainActivity, "Correcto", Toast.LENGTH_SHORT).show()
             _aciertos.value = _aciertos.value!! + 1
@@ -64,6 +66,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
             Toast.makeText(mainActivity, "Incorrecto", Toast.LENGTH_SHORT).show()
             _color.value = Color.Red
         }
+        dormido = true
         GlobalScope.launch {
             SystemClock.sleep(200)
             launch(Main) {
@@ -110,6 +113,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
         azar = (0..3).random()
         _signBuscar.value = jugadaArray[azar]
         _color.value = Color.White
+        dormido = false
 
     }
 
