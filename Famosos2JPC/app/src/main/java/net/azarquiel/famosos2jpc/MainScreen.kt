@@ -1,6 +1,7 @@
 package net.azarquiel.famosos2jpc
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,6 +17,7 @@ import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -50,7 +52,12 @@ fun CustomTopBar() {
 @Composable
 fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
     val famosoBuscar = viewModel.famosoBuscar.observeAsState(Famoso())
-    val jugadaFotos = viewModel.jugadaFotos.observeAsState(listOf<Int>())
+    val jugadaFotos = viewModel.jugadaFotos.observeAsState(intArrayOf(0,0,0,0,0))
+    val aciertos = viewModel.aciertos.observeAsState(0)
+    val intentos = viewModel.intentos.observeAsState(0)
+    val tiempo = viewModel.tiempo.observeAsState(0)
+    val jugadaArray = viewModel.jugadaArray.observeAsState(listOf<Famoso>())
+    val jugadaNombres = viewModel.jugadaNombres.observeAsState(arrayOf("a", "b", "c", "d", "e"))
 
     Column(
         modifier = Modifier
@@ -59,13 +66,18 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
     {
         // a pintaaarrrr sabiendo que estamos en column
         Row(modifier = Modifier.padding(16.dp)) {
-            Column(modifier = Modifier.weight(1f)) {
+
+            Column(modifier = Modifier.weight(1f)
+                                    .background(Color.Red)) {
                 for (i in 1..5) {
                     Row(modifier = Modifier.padding(16.dp)
-                        .weight(1f),
+                        .weight(1f)
+                        .clickable { viewModel.pulsado() }
+                        ,
+
                         ) {
                         Image(
-                            painter = painterResource(id = jugadaFotos),
+                            painter = painterResource(id = jugadaFotos.value[i-1] ),
                             contentScale = ContentScale.Fit,
                             contentDescription = "Famoso $i",
                             modifier = Modifier.clickable { viewModel.pulsado() }
@@ -75,12 +87,13 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                     }
                 }
             }
-            Column(modifier = Modifier.weight(1f)) {
+            Column(modifier = Modifier.weight(1f).background(Color.Blue)) {
                 for (i in 1..5) {
                     Row(modifier = Modifier.padding(16.dp)
-                        .weight(1f)) {
+                        .weight(1f)
+                        .clickable { viewModel.pulsado() }) {
                         Text(
-                            text = "ElFamosoEnCuestion",
+                            text = jugadaNombres.value[i-1],
                             modifier = Modifier.padding(1.dp),
                             style = MaterialTheme.typography.headlineMedium
 

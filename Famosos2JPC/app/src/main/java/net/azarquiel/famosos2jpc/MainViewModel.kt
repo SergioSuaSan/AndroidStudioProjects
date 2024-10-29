@@ -2,10 +2,13 @@ package net.azarquiel.famosos2jpc
 
 
 import android.content.Context
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.Gson
 import net.azarquiel.bingoshare.util.Util
 import net.azarquiel.famosos2jpc.model.Famoso
 
@@ -22,26 +25,34 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     val tiempo: LiveData<Long> = _tiempo
     private val _famosoBuscar = MutableLiveData<Famoso>()
     val famosoBuscar: LiveData<Famoso> = _famosoBuscar
-    private val _jugadaFotos = MutableLiveData<Array<Int>>()
-    val jugadaFotos: LiveData<Array<Int>> = _jugadaFotos
+    private val _jugadaFotos: MutableLiveData<IntArray> = MutableLiveData(IntArray(5))
+    val jugadaFotos: LiveData<IntArray> = _jugadaFotos
+    private val _jugadaNombres = MutableLiveData(Array(5) { "" })
+    val jugadaNombres: LiveData<Array<String>> = _jugadaNombres
 
     var famososArray = Array<Famoso>(600) { Famoso() }
-    var jugadaArray = Array<Famoso>(5) { Famoso() }
-    private var azar: Int = 0
+    private val _jugadaArray = MutableLiveData<Array<Famoso>>()
+    var jugadaArray : LiveData<Array<Famoso>> = _jugadaArray
+    var famosojson = ""
+
 
 
     init {
         Util.inyecta(mainActivity.baseContext, "person.xml")
+        _jugadaArray.value = Array(5) { Famoso() }
         newGame()
     }
 
 
     private fun getAllFamosos() {
         val sh = mainActivity.getSharedPreferences("person", Context.MODE_PRIVATE)
-        val signsSH = sh.all
+        val famososSH = sh.all
         var i = 0
-        signsSH.forEach {(key, value) ->
-            famososArray[i] = Famoso(key, value.toString())
+        famososSH.forEach {(key, value) ->
+
+            famosojson = value.toString()
+            val famoso = Gson().fromJson(famosojson, Famoso::class.java)
+            famososArray[i] = famoso
             i++
         }
     }
@@ -55,21 +66,30 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
 
 
     fun pulsado() {
-        TODO("Not yet implemented")
+        Toast.makeText(mainActivity, "Pulsado", Toast.LENGTH_SHORT).show()
 
 
     }
     private fun newIntento() {
         famososArray.shuffle()
         var id = 0
+        var nombres = Array<String>(5) { "" }
         for (i in 0 until 5) {
-            jugadaArray[i] = famososArray[i]
-            id = jugadaArray[i].id.toInt()
+            _jugadaArray.value!![i] = famososArray[i]
+            id = mainActivity.resources.getIdentifier(
+                "p${jugadaArray.value!![i].id}",
+                "drawable",
+                mainActivity.packageName
+            )
+            _jugadaFotos.value!![i] = id
+
+            nombres[i] = famososArray[i].nombre
+
 
         }
-        azar = (0..3).random()
-        _famosoBuscar.value = jugadaArray[azar]
-        _color.value = Color.White
+        nombres.shuffle()
+        _jugadaNombres.value = nombres
+
 
     }
 }
