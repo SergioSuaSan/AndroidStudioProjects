@@ -2,9 +2,7 @@ package net.azarquiel.famosos2jpc
 
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,22 +13,13 @@ import net.azarquiel.famosos2jpc.model.Famoso
 class MainViewModel(mainActivity: MainActivity): ViewModel() {
 
     val mainActivity by lazy { mainActivity }
-    private val _color = MutableLiveData<Color>()
-    val color: LiveData<Color> = _color
-    private val _aciertos = MutableLiveData<Int>()
-    val aciertos: LiveData<Int> = _aciertos
-    private val _intentos = MutableLiveData<Int>()
-    val intentos: LiveData<Int> = _intentos
-    private val _tiempo = MutableLiveData<Long>()
-    val tiempo: LiveData<Long> = _tiempo
-    private val _famosoBuscar = MutableLiveData<Famoso>()
-    val famosoBuscar: LiveData<Famoso> = _famosoBuscar
+
     private val _jugadaFotos: MutableLiveData<IntArray> = MutableLiveData(IntArray(5))
     val jugadaFotos: LiveData<IntArray> = _jugadaFotos
     private val _jugadaNombres = MutableLiveData(Array(5) { "" })
     val jugadaNombres: LiveData<Array<String>> = _jugadaNombres
 
-    var famososArray = Array<Famoso>(600) { Famoso() }
+    var famososArray = Array(600) { Famoso() }
     private val _jugadaArray = MutableLiveData<Array<Famoso>>()
     var jugadaArray : LiveData<Array<Famoso>> = _jugadaArray
     var famosojson = ""
@@ -58,8 +47,6 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     }
 
     private fun newGame() {
-        _aciertos.value = 0
-        _intentos.value = 0
         getAllFamosos()
         newIntento()
     }
