@@ -71,7 +71,6 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                     Row(modifier = Modifier.padding(16.dp)
                         .weight(1f)
                         .fillMaxSize()
-                        .clickable { viewModel.pulsado() }
                         ,
                         horizontalArrangement = Arrangement.Center
 
@@ -80,7 +79,7 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                             painter = painterResource(id = jugadaFotos.value[i-1] ),
                             contentScale = ContentScale.Fit,
                             contentDescription = "Famoso $i",
-                            modifier = Modifier.clickable { viewModel.pulsado() }
+                            modifier = Modifier.clickable { viewModel.pulsado(i-1) }
 
 
                         )
@@ -94,7 +93,7 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                         .fillMaxSize()
                         .clip(RoundedCornerShape(16.dp))
                         .background(Color.LightGray)
-                        .clickable { viewModel.pulsado() },
+                        .clickable { viewModel.pulsado(i-1) },
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
 

@@ -23,6 +23,9 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     private val _jugadaArray = MutableLiveData<Array<Famoso>>()
     var jugadaArray : LiveData<Array<Famoso>> = _jugadaArray
     var famosojson = ""
+    var nombre = ""
+    var id = ""
+    var contador = 0
 
 
 
@@ -52,8 +55,28 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     }
 
 
-    fun pulsado() {
-        Toast.makeText(mainActivity, "Pulsado", Toast.LENGTH_SHORT).show()
+    fun pulsado(i: Int) {
+
+        if (contador == 0) {
+            id = famososArray[i].id
+            nombre = famososArray[i].nombre
+            Toast.makeText(mainActivity, "Pulsado $id y $nombre", Toast.LENGTH_SHORT).show()
+            contador++
+
+        } else {
+            id = _jugadaArray.value!![i].id
+
+            contador--
+            if (nombre == _jugadaNombres.value!![i]) {
+                Toast.makeText(mainActivity, "Correcto", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(mainActivity, "Incorrecto", Toast.LENGTH_SHORT).show()
+            }
+
+
+        }
+
+
 
 
     }
