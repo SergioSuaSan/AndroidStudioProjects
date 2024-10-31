@@ -23,7 +23,7 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     private val _jugadaArray = MutableLiveData<Array<Famoso>>()
     var jugadaArray : LiveData<Array<Famoso>> = _jugadaArray
     var famosojson = ""
-    var nombre = ""
+    var nombre: String? = null
     var id = ""
     var contador = 0
 
@@ -55,6 +55,22 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     }
 
 
+    fun pulsado1(i: Int) {
+        id = famososArray[i].id
+        nombre = famososArray[i].nombre
+        Toast.makeText(mainActivity, "Pulsado $id y $nombre", Toast.LENGTH_SHORT).show()
+
+    }
+    fun pulsado2(i: Int) {
+        if (nombre == null) return
+        if (nombre == _jugadaNombres.value!![i]) {
+            Toast.makeText(mainActivity, "Correcto", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(mainActivity, "Incorrecto", Toast.LENGTH_SHORT).show()
+        }
+        nombre = null
+    }
+    /*
     fun pulsado(i: Int) {
 
         if (contador == 0) {
@@ -80,6 +96,8 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
 
 
     }
+    */
+
     private fun newIntento() {
         famososArray.shuffle()
         var id = 0
@@ -102,4 +120,8 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
 
 
     }
+
+
+
+
 }
