@@ -1,5 +1,6 @@
 package net.azarquiel.famosos2jpc
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -54,8 +55,16 @@ fun CustomTopBar() {
 
 @Composable
 fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
+
+    //variables que vamos a utilizar. Tienen que estar inicializadas con un valor.
     val jugadaFotos = viewModel.jugadaFotos.observeAsState(intArrayOf(0,0,0,0,0))
     val jugadaNombres = viewModel.jugadaNombres.observeAsState(arrayOf("a", "b", "c", "d", "e"))
+
+    val coloresFotos = viewModel.coloresFotos
+    val coloresNombres = viewModel.coloresNombres
+
+
+
 
     Column(
         modifier = Modifier
@@ -63,14 +72,21 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
             .padding(padding),)
     {
         // a pintaaarrrr sabiendo que estamos en column
+        //Hacemos 1 fila con 2 columnas, una con las fotos y otra con los nombres
         Row(modifier = Modifier.padding(16.dp)) {
 
+            //primer columna con las fotos
             Column(modifier = Modifier.weight(2f)
                                     ) {
+
+                //hacemos 5 filas con 1 columna cada una
                 for (i in 1..5) {
+
                     Row(modifier = Modifier.padding(16.dp)
                         .weight(1f)
                         .fillMaxSize()
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(coloresFotos[i-1])
                         ,
                         horizontalArrangement = Arrangement.Center
 
@@ -79,21 +95,24 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                             painter = painterResource(id = jugadaFotos.value[i-1] ),
                             contentScale = ContentScale.Fit,
                             contentDescription = "Famoso $i",
-                            modifier = Modifier.clickable { viewModel.pulsado1(i-1) }
-
-
+                            modifier = Modifier.clickable {
+                                viewModel.pulsado1(i-1)
+                                Log.d("pulsado", "pulsado $i")
+                            }
                         )
                     }
                 }
             }
             Column(modifier = Modifier.weight(3f)) {
+
                 for (i in 1..5) {
-                    Row(modifier = Modifier.padding(16.dp)
+                    Row (modifier = Modifier.padding(16.dp)
                         .weight(1f)
                         .fillMaxSize()
                         .clip(RoundedCornerShape(16.dp))
-                        .background(Color.LightGray)
-                        .clickable { viewModel.pulsado2(i-1) },
+                        .background(coloresNombres[i-1])
+                        .clickable { viewModel.pulsado2(i-1) }
+                        ,
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,
 
