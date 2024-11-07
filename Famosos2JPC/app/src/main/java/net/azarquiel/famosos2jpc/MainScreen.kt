@@ -99,6 +99,7 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                                 viewModel.pulsado1(i-1)
                                 Log.d("pulsado", "pulsado $i")
                             }
+
                         )
                     }
                 }
@@ -110,8 +111,8 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                         .weight(1f)
                         .fillMaxSize()
                         .clip(RoundedCornerShape(16.dp))
-                        .background(coloresNombres[i-1])
                         .clickable { viewModel.pulsado2(i-1) }
+                        .background(coloresNombres[i-1])
                         ,
                         horizontalArrangement = Arrangement.Center,
                         verticalAlignment = Alignment.CenterVertically,

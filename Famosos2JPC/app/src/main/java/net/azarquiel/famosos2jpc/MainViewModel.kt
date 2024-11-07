@@ -24,11 +24,13 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     private val _jugadaNombres = MutableLiveData(Array(5) { "" })
     val jugadaNombres: LiveData<Array<String>> = _jugadaNombres
     private val _n = MutableLiveData(1)
-    private val _coloresFotos = mutableStateListOf(Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan)
-    val coloresFotos: SnapshotStateList<Color> = _coloresFotos
 
+    private val _coloresFotos = mutableStateListOf(Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan)
+    //val coloresFotos: List<Color> = _coloresFotos
+    val coloresFotos: List<Color> get() = _coloresFotos.toList() // Expose as immutable list
     private val _coloresNombres = mutableStateListOf(Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan)
-    val coloresNombres: SnapshotStateList<Color> = _coloresNombres
+    //val coloresNombres: List<Color> = _coloresNombres
+    val coloresNombres: List<Color> get() = _coloresNombres.toList() // Expose as immutable list
 
 
 
@@ -61,23 +63,19 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
         getAllFamosos()
         newIntento()
         aciertos = 0
+        Log.d("SERGIO", "$coloresFotos $coloresNombres ")
     }
 
 
     fun pulsado1(i: Int) {
-<<<<<<< Updated upstream
-//        _n.value =i
-       coloresFotos[i] = Color.Blue
-//        id = famososArray[i].id
-//        nombre = famososArray[i].nombre
-//        Toast.makeText(mainActivity, "Pulsado $id y $nombre", Toast.LENGTH_SHORT).show()
-=======
+        Log.d("SERGIO", "${_n.value}, ${_coloresFotos[i]}")
         _n.value =i
-    //    _coloresFotos[i] = Color.Blue
+        _coloresFotos[i] = Color.Yellow
+        Log.d("SERGIO", "${_n.value}, ${_coloresFotos[i]}")
         id = famososArray[i].id
         nombre = famososArray[i].nombre
         Toast.makeText(mainActivity, "Pulsado $id y $nombre", Toast.LENGTH_SHORT).show()
->>>>>>> Stashed changes
+
 
     }
     fun pulsado2(i: Int) {
@@ -131,8 +129,8 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     private fun newIntento() {
         famososArray.shuffle()
         for (i in 0 until 5) {
-            coloresFotos[i] = Color.LightGray
-            coloresNombres[i] = Color.LightGray
+            _coloresFotos[i] = Color.LightGray
+            _coloresNombres[i] = Color.LightGray
         }
 
         var id = 0
