@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,8 +24,11 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
     private val _jugadaNombres = MutableLiveData(Array(5) { "" })
     val jugadaNombres: LiveData<Array<String>> = _jugadaNombres
     private val _n = MutableLiveData(1)
-    val coloresFotos = mutableStateListOf(Color.LightGray, Color.LightGray, Color.LightGray, Color.LightGray, Color.LightGray)
-    val coloresNombres = mutableStateListOf(Color.LightGray, Color.LightGray, Color.LightGray, Color.LightGray, Color.LightGray)
+    private val _coloresFotos = mutableStateListOf(Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan)
+    val coloresFotos: SnapshotStateList<Color> = _coloresFotos
+
+    private val _coloresNombres = mutableStateListOf(Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan, Color.Cyan)
+    val coloresNombres: SnapshotStateList<Color> = _coloresNombres
 
 
 
@@ -61,27 +65,35 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
 
 
     fun pulsado1(i: Int) {
+<<<<<<< Updated upstream
 //        _n.value =i
        coloresFotos[i] = Color.Blue
 //        id = famososArray[i].id
 //        nombre = famososArray[i].nombre
 //        Toast.makeText(mainActivity, "Pulsado $id y $nombre", Toast.LENGTH_SHORT).show()
+=======
+        _n.value =i
+    //    _coloresFotos[i] = Color.Blue
+        id = famososArray[i].id
+        nombre = famososArray[i].nombre
+        Toast.makeText(mainActivity, "Pulsado $id y $nombre", Toast.LENGTH_SHORT).show()
+>>>>>>> Stashed changes
 
     }
     fun pulsado2(i: Int) {
         Log.d("SERGIO", "SUFRIR")
         if (nombre == null) return
         if (nombre == _jugadaNombres.value!![i]) {
-            coloresFotos[_n.value!!] = Color.Green
-            coloresNombres[i] = Color.Green
+            _coloresFotos[_n.value!!] = Color.Green
+            _coloresNombres[i] = Color.Green
             aciertos++
             Toast.makeText(mainActivity, "Correcto", Toast.LENGTH_SHORT).show()
             if (aciertos == 5) {
                 newGame()
             }
         } else {
-            coloresFotos[_n.value!!] = Color.Red
-            coloresNombres[i] = Color.Red
+            _coloresFotos[_n.value!!] = Color.Red
+            _coloresNombres[i] = Color.Red
             Toast.makeText(mainActivity, "Incorrecto", Toast.LENGTH_SHORT).show()
         }
         nombre = null
