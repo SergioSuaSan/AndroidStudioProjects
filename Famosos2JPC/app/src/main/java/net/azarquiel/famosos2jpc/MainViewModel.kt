@@ -62,7 +62,7 @@ class MainViewModel(mainActivity: MainActivity): ViewModel() {
 
     fun pulsado1(i: Int) {
 //        _n.value =i
-        coloresFotos[i] = Color.Blue
+       coloresFotos[i] = Color.Blue
 //        id = famososArray[i].id
 //        nombre = famososArray[i].nombre
 //        Toast.makeText(mainActivity, "Pulsado $id y $nombre", Toast.LENGTH_SHORT).show()
