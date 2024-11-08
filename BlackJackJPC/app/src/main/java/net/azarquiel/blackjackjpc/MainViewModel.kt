@@ -27,15 +27,12 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel(){
     val mazo = Array(40) { Carta() }
     val palos = arrayOf("clubs", "diamonds", "hearts", "spades")
     val random = Random(System.currentTimeMillis())
-    val numeros = arrayOf("As", "2", "3", "4", "5", "6", "7", "J", "Q", "K")
     var posmazo = 0
     var puntos = Array(2){0}
     var jugador = 0;
     var durmiendo = false
     private val _msg = MutableLiveData<String>()
-    val msg: LiveData<String> = _msg
     private val _openDialog = MutableLiveData<Boolean>()
-    val openDialog: LiveData<Boolean> = _openDialog
 
 
 

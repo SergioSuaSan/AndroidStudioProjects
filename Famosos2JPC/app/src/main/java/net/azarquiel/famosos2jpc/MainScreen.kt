@@ -22,7 +22,6 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -60,6 +59,7 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
     val jugadaFotos = viewModel.jugadaFotos.observeAsState(intArrayOf(0,0,0,0,0))
     val jugadaNombres = viewModel.jugadaNombres.observeAsState(arrayOf("a", "b", "c", "d", "e"))
 
+    //Las mutableStateListOf son listas que se pueden modificar. Salen directamente del viewModel
     val coloresFotos = viewModel.coloresFotos
     val coloresNombres = viewModel.coloresNombres
 
@@ -86,12 +86,14 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                         .weight(1f)
                         .fillMaxSize()
                         .clip(RoundedCornerShape(16.dp))
+                        //Le colocamos el color de la lista de colores de las fotos
                         .background(coloresFotos[i-1])
                         ,
                         horizontalArrangement = Arrangement.Center
 
                         ) {
                         Image(
+                            //Le asignamos la foto de la lista de fotos
                             painter = painterResource(id = jugadaFotos.value[i-1] ),
                             contentScale = ContentScale.Fit,
                             contentDescription = "Famoso $i",
@@ -105,13 +107,14 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                 }
             }
             Column(modifier = Modifier.weight(3f)) {
-
+                //segunda columna con los nombres
                 for (i in 1..5) {
-                    Row (modifier = Modifier.padding(16.dp)
+                    Row (modifier = Modifier.padding(6.dp)
                         .weight(1f)
                         .fillMaxSize()
                         .clip(RoundedCornerShape(16.dp))
                         .clickable { viewModel.pulsado2(i-1) }
+                        //Le colocamos el color de la lista de colores de los nombres
                         .background(coloresNombres[i-1])
                         ,
                         horizontalArrangement = Arrangement.Center,
