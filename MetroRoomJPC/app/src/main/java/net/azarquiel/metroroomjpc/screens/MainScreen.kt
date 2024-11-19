@@ -1,7 +1,7 @@
-package net.azarquiel.metroroomjpc
+package net.azarquiel.metroroomjpc.screens
 
-import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -35,15 +34,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.graphics.toColorInt
+import androidx.navigation.NavHostController
+import net.azarquiel.metroroomjpc.MainViewModel
+import net.azarquiel.metroroomjpc.R
 import net.azarquiel.metroroomjpc.model.Linea
+import net.azarquiel.metroroomjpc.model.LineaWithEstaciones
 
 
 @Composable
-fun MainScreen(viewModel: MainViewModel) {
+fun MainScreen(navController: NavHostController, viewModel: MainViewModel) {
     Scaffold(
         topBar = { CustomTopBar() },
         content = { padding ->
-            CustomContent(padding, viewModel)
+            CustomContent(padding, viewModel, navController)
         }
     )
 }
@@ -63,7 +66,11 @@ fun CustomTopBar() {
 
 
 @Composable
-fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
+fun CustomContent(
+    padding: PaddingValues,
+    viewModel: MainViewModel,
+    navController: NavHostController
+) {
     val lineas = viewModel.lineas.observeAsState(listOf())
     Column(
         modifier = Modifier
@@ -78,24 +85,29 @@ fun CustomContent(padding: PaddingValues, viewModel: MainViewModel) {
                         contentDescription = "Metro de Madrid",
                     )
                 }
-                CardLinea(linea)
+                CardEstacion(linea, navController)
             }
         }
     }
 }
 @Composable
-fun CardLinea(linea: Linea) {
+fun CardEstacion(lineaWithEstaciones: LineaWithEstaciones, navController: NavHostController) {
     val context = LocalContext.current
-    val id = context.resources.getIdentifier("icono_linea_${linea.id}", "drawable", context.packageName)
-
+    val id = context.resources.getIdentifier("icono_linea_${lineaWithEstaciones.linea.id}", "drawable", context.packageName)
+    var mycolor = lineaWithEstaciones.linea.color
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(4.dp),
+            .padding(4.dp)
+            .clickable {
+                // name es la variable de un TextField, podría ser un Objeto
+                navController.currentBackStackEntry?.savedStateHandle?.set("lineaWithEstaciones", lineaWithEstaciones)
+                navController.navigate("DetailScreen")
+            },
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Color(linea.color.toColorInt()),
+            containerColor = Color(lineaWithEstaciones.linea.color.toColorInt()),
             contentColor = Color.Black),
     ) {
         Row(
@@ -106,11 +118,11 @@ fun CardLinea(linea: Linea) {
         {
             Image(
                 painter = painterResource(id),
-                contentDescription = linea.nombre,
+                contentDescription = lineaWithEstaciones.linea.nombre,
                 modifier = Modifier.weight(3f).size(100.dp,100.dp).padding(8.dp)
             )
             Text(
-                text = linea.nombre,
+                text = lineaWithEstaciones.linea.nombre,
                 modifier = Modifier.weight(8f).fillMaxWidth(),
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
@@ -119,9 +131,5 @@ fun CardLinea(linea: Linea) {
         }
     }
 }
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    CardLinea(Linea(1,"Linea 1", "#FF0000"))
-}
+
 

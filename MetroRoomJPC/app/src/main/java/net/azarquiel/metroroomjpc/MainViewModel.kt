@@ -7,12 +7,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import net.azarquiel.alltricks.util.Util
-import net.azarquiel.metroroomjpc.model.Linea
+import net.azarquiel.metroroomjpc.model.LineaWithEstaciones
 import net.azarquiel.metroroomjpc.viewmodel.LineaViewModel
 
 class MainViewModel(mainActivity: MainActivity): ViewModel()  {
-    private val _lineas: MutableLiveData<List<Linea>> = MutableLiveData()
-    val lineas: LiveData<List<Linea>> = _lineas
+    private val _lineas: MutableLiveData<List<LineaWithEstaciones>> = MutableLiveData()
+    val lineas: LiveData<List<LineaWithEstaciones>> = _lineas
     init {
         val lineaViewModel = ViewModelProvider(mainActivity).get(LineaViewModel::class.java)
         Util.inyecta(mainActivity, "MetroDB.db")

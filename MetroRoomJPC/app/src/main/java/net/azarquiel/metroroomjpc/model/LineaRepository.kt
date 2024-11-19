@@ -9,7 +9,7 @@ class LineaRepository(application: Application) {
 
     val lineaDAO = MetroDB.getDatabase(application).lineaDAO()
     // select
-    fun getAllLineas(): LiveData<List<Linea>> {
+    fun getAllLineas(): LiveData<List<LineaWithEstaciones>> {
         return lineaDAO.getAllLineas()
     }
 }
