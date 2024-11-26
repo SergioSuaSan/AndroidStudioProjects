@@ -8,34 +8,43 @@ import androidx.room.PrimaryKey
 import androidx.room.Relation
 import java.io.Serializable
 
-
 @Entity(tableName = "equipo")
 data class Equipo(@PrimaryKey
-                 var id: Int=0,          // atributo en entity
+                 var id: Int=0,
                  var nombre:String="",
                  var imgestadio:String="",
-                 var imgescudo:String="", ): Serializable
-
-
+                 var imgescudo:String=""): Serializable
 @Entity(tableName = "jugador",
     foreignKeys = [ForeignKey(entity = Equipo::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("equipo"))])
 data class Jugador(@PrimaryKey
-                    var id: Int=0,          // atributo en entity
-                    var equipo:Int=0,
+                    var id: Int=0,
+                    var equipo: Int=0,
                     var nombre:String="",
+                    var imagen:String="",
                     var link:String="",
                     var pais:String="",
-                    var estatura:Int=0,
+                    var estatura:Float=0F,
                     var edad:Int=0,
-                    var likes:Int=0): Serializable
-
-data class EquipoConJugadores(
-    @Embedded val equipo:  Equipo,
+                    var likes:Int=0):Serializable
+// Relación uno a muchos (un equipo => muchas jugadores)
+data class EquipoWithJugadores(
+    @Embedded val equipo: Equipo,
     @Relation(
         parentColumn = "id",
         entityColumn = "equipo"
     )
-    val tapas: List<Jugador>
-): Serializable
+    val jugadores: List<Jugador>
+):Serializable
+
+// Relación uno a uno (una jugador => un equipo)
+data class JugadorWE(
+    @Embedded val jugador: Jugador,
+    @Relation(
+        parentColumn = "equipo",
+        entityColumn = "id"
+    )
+    val equipo: Equipo
+):Serializable
+

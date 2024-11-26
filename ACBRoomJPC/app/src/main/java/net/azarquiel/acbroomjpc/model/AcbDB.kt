@@ -6,7 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 
-
 @Database(entities = [Equipo::class, Jugador::class], version = 1)
 abstract class AcbDB: RoomDatabase() {
     abstract fun daoEquipo(): DaoEquipo

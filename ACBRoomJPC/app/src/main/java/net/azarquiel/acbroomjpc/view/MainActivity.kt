@@ -4,7 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import net.azarquiel.acbroomjpc.ui.theme.ACBRoomJPCTheme
+import net.azarquiel.acbroomjpc.navigation.AppNavigation
+import net.azarquiel.acbroomjpc.ui.theme.AcbRoomJPCTheme
 import net.azarquiel.acbroomjpc.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
@@ -12,8 +13,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ACBRoomJPCTheme {
-                MainViewModel(this)
+            AcbRoomJPCTheme {
+                AppNavigation(this)
             }
         }
     }

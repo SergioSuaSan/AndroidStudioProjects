@@ -19,6 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ACBRoomJPC"
+rootProject.name = "AcbRoomJPC"
 include(":app")
- 

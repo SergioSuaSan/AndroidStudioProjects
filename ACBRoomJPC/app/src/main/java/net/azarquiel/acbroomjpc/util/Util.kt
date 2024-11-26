@@ -1,6 +1,5 @@
-package net.azarquiel.bingoshare.util
+package net.azarquiel.alltricks.util
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.widget.Toast
@@ -10,52 +9,52 @@ import java.io.*
  * Autor: Paco Pulido
  */
 
-@SuppressLint("StaticFieldLeak")
-object Util {
-    private lateinit var XMLFile:String
-    private lateinit var context: Context
+class Util {
+    companion object {
+        private lateinit var context: Context
 
-    fun inyecta(context: Context, XMLFile:String) {
-        this.context = context
-        this.XMLFile = XMLFile
-        if (!File("/data/data/${context.packageName}/shared_prefs/$XMLFile").exists()) {
-            Toast.makeText(context,"Copiando Cartones....", Toast.LENGTH_LONG).show()
-            copiarXML()
+        fun inyecta(context: Context, fileDB:String) {
+            this.context = context
+            if (!File("/data/data/${context.packageName}/databases/${fileDB}").exists()) {
+                Toast.makeText(context,"Cargando datos....", Toast.LENGTH_LONG).show()
+                copiarFile(fileDB)
+            }
         }
-    }
-    private fun copiarXML() {
-        creaDirectorio()
-        copiar(XMLFile)
-    }
-
-    private fun creaDirectorio() {
-        val file = File("/data/data/${context.packageName}/shared_prefs")
-        file.mkdir()
-    }
-
-    private fun copiar(XMLFile: String) {
-        val ruta = ("/data/data/${context.packageName}/shared_prefs/$XMLFile")
-        var input: InputStream? = null
-        var output: OutputStream? = null
-        try {
-            input = context.assets.open(XMLFile)
-            output = FileOutputStream(ruta)
-            copyFile(input, output)
-            input!!.close()
-            output.close()
-        } catch (e: IOException) {
-            Log.e("Traductor", "Fallo en la copia del archivo desde el asset", e)
+        private fun copiarFile(fileDB:String) {
+            creaDirectorio()
+            copiar(fileDB)
         }
-    }
 
-    private fun copyFile(input: InputStream?, output: OutputStream) {
-        val buffer = ByteArray(1024)
-        var read: Int
-        read = input!!.read(buffer)
-        while (read != -1) {
-            output.write(buffer, 0, read)
+
+
+        private fun creaDirectorio() {
+            val file = File("/data/data/${context.packageName}/databases")
+            file.mkdir()
+        }
+
+        private fun copiar(file: String) {
+            val ruta = ("/data/data/${context.packageName}/databases/$file")
+            var input: InputStream? = null
+            var output: OutputStream? = null
+            try {
+                input = context.assets.open(file)
+                output = FileOutputStream(ruta)
+                copyFile(input, output)
+                input!!.close()
+                output.close()
+            } catch (e: IOException) {
+                Log.e("Traductor", "Fallo en la copia del archivo desde el asset", e)
+            }
+        }
+
+        private fun copyFile(input: InputStream?, output: OutputStream) {
+            val buffer = ByteArray(1024)
+            var read: Int
             read = input!!.read(buffer)
+            while (read != -1) {
+                output.write(buffer, 0, read)
+                read = input!!.read(buffer)
+            }
         }
     }
-
 }
