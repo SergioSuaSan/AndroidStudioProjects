@@ -28,4 +28,8 @@ class JugadorViewModel (application: Application) : AndroidViewModel(application
             }
         }
     }
+
+
+
+
 }

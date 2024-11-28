@@ -15,17 +15,21 @@ import net.azarquiel.alltricks.util.Util
 class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
 
+    private var jugadorViewModel: JugadorViewModel
     private val _jugadores: MutableLiveData<List<JugadorWE>> = MutableLiveData()
     val jugadores: LiveData<List<JugadorWE>> = _jugadores
 
     private val _idIcoFilter: MutableLiveData<Int> = MutableLiveData(R.drawable.player)
     val idIcoFilter: LiveData<Int> = _idIcoFilter
 
+    private val _likestate: MutableLiveData<Int> = MutableLiveData()
+    val likestate: LiveData<Int> = _likestate
+
     private val _isPlayer: MutableLiveData<Boolean> = MutableLiveData(true)
     val isPlayer: LiveData<Boolean> = _isPlayer
     init {
         Util.inyecta(mainActivity, "acb.sqlite")
-        val jugadorViewModel = ViewModelProvider(mainActivity).get(JugadorViewModel::class.java)
+        jugadorViewModel = ViewModelProvider(mainActivity).get(JugadorViewModel::class.java)
 
         jugadorViewModel.getJugadores().observe(mainActivity, Observer { jugadores ->
             _jugadores.value = jugadores
@@ -40,8 +44,8 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     }
 
     fun addLike(jugador: Jugador) {
-        jugador.likes++
-       // jugadorViewModel.update(jugador)
+        jugador.likes +=1
+        jugadorViewModel.update(jugador)
 
     }
 }

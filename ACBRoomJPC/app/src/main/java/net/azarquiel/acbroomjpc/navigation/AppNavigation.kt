@@ -6,7 +6,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import net.azarquiel.acbroomjpc.viewmodel.MainViewModel
 import net.azarquiel.acbroomjpc.screens.DetailScreen
+import net.azarquiel.acbroomjpc.screens.EquipoScreen
 import net.azarquiel.acbroomjpc.screens.MasterScreen
+import net.azarquiel.acbroomjpc.screens.WebJugadorScreen
 import net.azarquiel.acbroomjpc.view.MainActivity
 
 
@@ -23,9 +25,17 @@ fun AppNavigation(mainActivity: MainActivity
         composable(AppScreens.DetailScreen.route) {
             DetailScreen(navController, viewModel)
         }
+        composable(AppScreens.WebJugadorScreen.route) {
+            WebJugadorScreen(navController, viewModel)
+        }
+        composable(AppScreens.EquipoScreen.route) {
+            EquipoScreen(navController, viewModel)
+        }
     }
 }
 sealed class AppScreens(val route: String) {
     object MasterScreen: AppScreens(route = "MasterScreen")
     object DetailScreen: AppScreens(route = "DetailScreen")
+    object WebJugadorScreen: AppScreens(route = "WebJugadorScreen")
+    object EquipoScreen: AppScreens(route = "EquipoScreen")
 }
