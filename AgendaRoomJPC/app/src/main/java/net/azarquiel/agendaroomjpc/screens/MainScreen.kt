@@ -6,11 +6,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -29,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import net.azarquiel.agendaroomjpc.model.Amigo
@@ -38,12 +40,14 @@ import net.azarquiel.agendaroomjpc.viewmodel.MainViewModel
 
 @Composable
 fun MainScreen(viewModel: MainViewModel) {
+    val amigos: List<Amigo> by viewModel.amigos.observeAsState(listOf())
+
     DialogFab(viewModel)
     Scaffold(
         topBar = { CustomTopBar() },
         floatingActionButton = { CustomFAB(viewModel) },
         content = { padding ->
-            CustomContent(padding)
+            CustomContent(padding, amigos)
         }
     )
 }
@@ -70,12 +74,14 @@ fun DialogFab(viewModel: MainViewModel) {
     val context = LocalContext.current
     val openDialog = viewModel.openDialog.observeAsState(false)
     var nombre by remember { mutableStateOf("") }
-    var cantidad by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var telefono by remember { mutableStateOf("") }
     var isErrorEmptyNombre by remember { mutableStateOf(true) }
-    var isErrorEmptyCantidad by remember { mutableStateOf(true) }
+    var isErrorEmptyemail by remember { mutableStateOf(true) }
+    var isErrorEmptytelefono by remember { mutableStateOf(true) }
     if (openDialog.value) {
         AlertDialog(
-            title = { Text(text = "Add Product") },
+            title = { Text(text = "AGENDA") },
             text = {
                 Column{
                     TextField(
@@ -94,14 +100,28 @@ fun DialogFab(viewModel: MainViewModel) {
                         singleLine = true
                     )
                     TextField(
-                        value = cantidad,
+                        value = email,
                         onValueChange = {
-                            cantidad = it
-                            isErrorEmptyCantidad= cantidad.isEmpty()},
-                        label = { Text("Cantidad") },
+                            email = it
+                            isErrorEmptyemail= email.isEmpty()},
+                        label = { Text("email") },
                         supportingText = {
-                            if (isErrorEmptyCantidad) {Text("No empty...") } },
-                        isError = isErrorEmptyCantidad,
+                            if (isErrorEmptyemail) {Text("No empty...") } },
+                        isError = isErrorEmptyemail,
+                        placeholder = { Text("2 kg") },
+                        leadingIcon = { Icon(Icons.Default.ShoppingCart, contentDescription = "Producto") },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                        singleLine = true
+                    )
+                    TextField(
+                        value = telefono,
+                        onValueChange = {
+                            telefono = it
+                            isErrorEmptytelefono= telefono.isEmpty()},
+                        label = { Text("telefono") },
+                        supportingText = {
+                            if (isErrorEmptytelefono) {Text("No empty...") } },
+                        isError = isErrorEmptytelefono,
                         placeholder = { Text("2 kg") },
                         leadingIcon = { Icon(Icons.Default.ShoppingCart, contentDescription = "Producto") },
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -114,11 +134,11 @@ fun DialogFab(viewModel: MainViewModel) {
             confirmButton = {
                 Button(
                     onClick = {
-                        if (nombre.isEmpty() || cantidad.isEmpty()) {
+                        if (nombre.isEmpty() || telefono.isEmpty()) {
                             Toast.makeText( context, "required fields", Toast.LENGTH_LONG).show()
                         }
                         else {
-                            //viewModel.addAmigo(Amigo(nombre, cantidad))
+                            //viewModel.addAmigo(Amigo(nombre, telefono))
                             viewModel.setDialog(false)
                         }})
                 { Text("Ok") }
@@ -147,13 +167,26 @@ fun CustomTopBar() {
 
 
 @Composable
-fun CustomContent(padding: PaddingValues) {
-    Column(
+fun AmigoCard(amigo: Amigo) {
+    Card() {
+        Column() {
+            Text(text = amigo.nombre)
+            Text(text = amigo.email)
+            Text(text = amigo.telefono)
+        }
+    }
+
+}
+
+@Composable
+fun CustomContent(padding: PaddingValues, amigos: List<Amigo>) {
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(padding),
-    )
-    {
-        // a pintar
+    ) {
+        items(amigos) { amigo ->
+            AmigoCard(amigo)
+        }
     }
 }

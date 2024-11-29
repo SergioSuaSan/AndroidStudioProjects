@@ -11,4 +11,5 @@ data class Amigo(@PrimaryKey
                  @ColumnInfo(name = "id") // nombre columna en tabla
                  var id: Int?=0,            // atributo en entity
                  var nombre:String="",
-                var telefono:String="")
+                 var email:String="",
+                 var telefono:String="")
