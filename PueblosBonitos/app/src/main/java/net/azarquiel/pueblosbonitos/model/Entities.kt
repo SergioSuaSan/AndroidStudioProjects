@@ -9,45 +9,40 @@ import androidx.room.Relation
 import java.io.Serializable
 
 
-@Entity(tableName = "omunidad")
+@Entity(tableName = "comunidad")
 data class Comunidad(@PrimaryKey
                  @ColumnInfo(name = "id") // nombre columna en tabla
-                 var id: Int=0,          // atributo en entity
+                 var idComunidad: Int=0,          // atributo en entity
                  @ColumnInfo(name = "nombre")
-                 var nombre:String="",
-) : Serializable
+                 var nombreComunidad:String="",) : Serializable
 
 
-@Entity(tableName = "Provincia",
+@Entity(tableName = "provincia",
     foreignKeys = [ForeignKey(entity = Comunidad::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("comunidad"))])
 data class Provincia(@PrimaryKey
                     @ColumnInfo(name = "id") // nombre en la tabla
-                    var id: Int=0,          // atributo en entity
+                    var idProvincia: Int=0,          // atributo en entity
                     @ColumnInfo(name = "nombre")
-                    var nombre:String="",
-                    @ColumnInfo(name = "comunidad")
+                    var nombreProvincia:String="",
                     var comunidad:Int=0): Serializable
 
-@Entity(tableName = "Pueblo",
-    foreignKeys = [ForeignKey(entity = Comunidad::class,
+@Entity(tableName = "pueblo",
+    foreignKeys = [ForeignKey(entity = Provincia::class,
         parentColumns = arrayOf("id"),
         childColumns = arrayOf("provincia"))])
 data class Pueblo(@PrimaryKey
                      @ColumnInfo(name = "id") // nombre en la tabla
-                     var id: Int=0,          // atributo en entity
+                     var idPueblo: Int=0,          // atributo en entity
                      @ColumnInfo(name = "nombre")
-                     var nombre:String="",
-                     @ColumnInfo(name = "imagen")
+                     var nombrePueblo:String="",
                      var imagen:String="",
-                     @ColumnInfo(name = "link")
                      var link:String="",
-                     @ColumnInfo(name = "provincia")
                      var provincia:Int=0,
-                     @ColumnInfo(name = "fav")
                      var fav:Int=0): Serializable
 
+/*
 // Relación uno a muchos (una provincia con muchos pueblos)
 data class Provinciawp(
     @Embedded val provincia: Provincia,
@@ -57,7 +52,7 @@ data class Provinciawp(
     )
     val pueblos: List<Pueblo>
 ): Serializable
-
+ */
 // Relación uno a uno (un pueblo con una provincia)
 data class Pueblowp(
     @Embedded val pueblo: Pueblo,
@@ -67,3 +62,5 @@ data class Pueblowp(
     )
     val provincia: Provincia
 )
+
+    : Serializable
