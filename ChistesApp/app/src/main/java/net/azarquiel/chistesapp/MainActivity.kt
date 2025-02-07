@@ -1,6 +1,7 @@
 package net.azarquiel.chistesapp
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -9,10 +10,15 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import net.azarquiel.chistesapp.adapters.CustomAdapter
 import net.azarquiel.chistesapp.databinding.ActivityMainBinding
+import net.azarquiel.chistesapp.viewmodel.DataViewModel
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var adapter: CustomAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -22,7 +28,18 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         setSupportActionBar(binding.toolbar)
+        initRV()
+
+        val viewModel = ViewModelProvider(this)[DataViewModel::class.java]
+        viewModel.getCategorias().observe(this) {
+            it?.let {
+
+                    adapter.setCategorias(it)
+
+            }
+        }
 
     }
 
@@ -40,6 +57,13 @@ class MainActivity : AppCompatActivity() {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+
+    private fun initRV() {
+        adapter = CustomAdapter(this, R.layout.rowcategoria)
+        binding.cm.rvcategorias.layoutManager = LinearLayoutManager(this)
+        binding.cm.rvcategorias.adapter = adapter
     }
 
 

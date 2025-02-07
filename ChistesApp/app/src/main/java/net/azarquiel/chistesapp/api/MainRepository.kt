@@ -40,13 +40,14 @@ class MainRepository() {
     }
 
 
-    suspend fun savePuntos(puntos: Punto): Punto? {
-        var puntoResponse:Punto? = null
-        val webResponse = service.savePuntos(puntos).await()
+    suspend fun savePuntos( idchiste: String, punto: Punto): Punto? { //chiste que se inserta
+
+
+        val webResponse = service.savePuntos(idchiste,punto).await() //le pasamos parametro que nos ha dado (chiste a insertar)
         if (webResponse.isSuccessful) {
-            puntoResponse = webResponse.body()!!.punto
+            return webResponse.body()!!.punto
         }
-        return puntoResponse
+        return null
     }
     suspend fun saveUsuario(usuario: Usuario): Usuario? {
         var usuarioResponse:Usuario? = null
