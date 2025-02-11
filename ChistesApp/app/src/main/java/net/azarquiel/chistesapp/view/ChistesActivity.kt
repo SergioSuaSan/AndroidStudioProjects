@@ -1,6 +1,8 @@
 package net.azarquiel.chistesapp.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -12,12 +14,12 @@ import net.azarquiel.chistesapp.R
 import net.azarquiel.chistesapp.adapters.ChistesAdapter
 import net.azarquiel.chistesapp.databinding.ActivityMainBinding
 import net.azarquiel.chistesapp.model.Categoria
+import net.azarquiel.chistesapp.model.Chiste
 import net.azarquiel.chistesapp.viewmodel.DataViewModel
 
 class ChistesActivity : AppCompatActivity() {
-
+    private lateinit var rvchistes: RecyclerView
     private lateinit var categoria: Categoria
-    private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: ChistesAdapter
 
 
@@ -27,18 +29,12 @@ class ChistesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chistes)
 
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-
-        setSupportActionBar(binding.toolbar)
-
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rvchiste)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        rvchistesrow = findViewById<RecyclerView>(R.id.rvchiste)
+        rvchistes = findViewById<RecyclerView>(R.id.rvchiste)
         categoria = intent.getSerializableExtra("categoria") as Categoria
         initRV()
 
@@ -55,8 +51,17 @@ class ChistesActivity : AppCompatActivity() {
     }
         private fun initRV() {
             adapter = ChistesAdapter(this, R.layout.rowchiste)
-            binding.cm.rvcategorias.layoutManager = LinearLayoutManager(this)
-            binding.cm.rvcategorias.adapter = adapter
+            rvchistes.layoutManager = LinearLayoutManager(this)
+            rvchistes.adapter = adapter
         }
+
+    fun onClickChiste( v: View) {
+        val chistePulsado = v.tag as Chiste
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("chiste", chistePulsado)
+        intent.putExtra("categoria", categoria)
+        startActivity(intent)
+
+    }
 
 }

@@ -48,7 +48,10 @@ class ChistesAdapter(val context: Context,
             val ivchisterow = itemView.findViewById(R.id.ivchisterow) as ImageView
             val tvchisterow = itemView.findViewById(R.id.tvchisterow) as TextView
 
-            tvchisterow.text = "${dataItem.contenido.substring(0,20)}..."
+            tvchisterow.text = dataItem.contenido
+            if (dataItem.contenido.length > 20)
+                tvchisterow.text = "${dataItem.contenido.substring(0,20)}..."
+
 
 
 

@@ -39,7 +39,6 @@ interface ChisteService {
     fun saveChiste(@Body chiste: Chiste): Deferred<Response<Result>>
 
     // post con variables sueltas => @Field y Obligatorio @FormUrlEncoded
-    @FormUrlEncoded
     @POST("chiste/{idchiste}/punto")
     fun savePuntos(@Path("idchiste") idchiste: String,
                    @Body punto: Punto): Deferred<Response<Result>>
