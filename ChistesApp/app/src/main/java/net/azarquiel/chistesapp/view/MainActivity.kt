@@ -1,24 +1,23 @@
-package net.azarquiel.chistesapp
+package net.azarquiel.chistesapp.view
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import net.azarquiel.chistesapp.adapters.CustomAdapter
+import net.azarquiel.chistesapp.R
+import net.azarquiel.chistesapp.adapters.CategoriaAdapter
 import net.azarquiel.chistesapp.databinding.ActivityMainBinding
+import net.azarquiel.chistesapp.model.Categoria
 import net.azarquiel.chistesapp.viewmodel.DataViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var adapter: CustomAdapter
+    private lateinit var adapter: CategoriaAdapter
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -61,9 +60,17 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initRV() {
-        adapter = CustomAdapter(this, R.layout.rowcategoria)
+        adapter = CategoriaAdapter(this, R.layout.rowcategoria)
         binding.cm.rvcategorias.layoutManager = LinearLayoutManager(this)
         binding.cm.rvcategorias.adapter = adapter
+    }
+
+    fun onClickCategoria( v: View) {
+        val categoriaPulsada = v.tag as Categoria
+        val intent = Intent(this, ChistesActivity::class.java)
+        intent.putExtra("categoria", categoriaPulsada)
+        startActivity(intent)
+
     }
 
 

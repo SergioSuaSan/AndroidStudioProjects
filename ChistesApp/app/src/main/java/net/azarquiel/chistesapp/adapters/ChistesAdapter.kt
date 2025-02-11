@@ -9,16 +9,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import net.azarquiel.chistesapp.R
-import net.azarquiel.chistesapp.model.Categoria
+import net.azarquiel.chistesapp.model.Chiste
 
 /**
  * Created by pacopulido on 9/10/18.
  */
-class CustomAdapter(val context: Context,
-                    val layout: Int
-                    ) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class ChistesAdapter(val context: Context,
+                     val layout: Int
+                    ) : RecyclerView.Adapter<ChistesAdapter.ViewHolder>() {
 
-    private var dataList: List<Categoria> = emptyList()
+    private var dataList: List<Chiste> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -35,24 +35,25 @@ class CustomAdapter(val context: Context,
         return dataList.size
     }
 
-    internal fun setCategorias(categorias: List<Categoria>) {
-        this.dataList = categorias
+    internal fun setChistes(chistes: List<Chiste>) {
+        this.dataList = chistes
         notifyDataSetChanged()
     }
 
 
     class ViewHolder(viewlayout: View, val context: Context) : RecyclerView.ViewHolder(viewlayout) {
-        fun bind(dataItem: Categoria){
+        fun bind(dataItem: Chiste){
             // itemview es el item de diseño
             // al que hay que poner los datos del objeto dataItem
-            val ivcategoriarow = itemView.findViewById(R.id.ivcategoriarow) as ImageView
-            val tvcategoriarow = itemView.findViewById(R.id.tvcategoriarow) as TextView
+            val ivchisterow = itemView.findViewById(R.id.ivchisterow) as ImageView
+            val tvchisterow = itemView.findViewById(R.id.tvchisterow) as TextView
 
-            tvcategoriarow.text = dataItem.nombre
+            tvchisterow.text = "${dataItem.contenido.substring(0,20)}..."
+
 
 
             // foto de internet a traves de Picasso
-            Picasso.get().load("http://www.ies-azarquiel.es/paco/apichistes/img/${dataItem.id}.png").into(ivcategoriarow)
+            Picasso.get().load("http://www.ies-azarquiel.es/paco/apichistes/img/${dataItem.id}.png").into(ivchisterow)
 
             itemView.tag = dataItem
 
