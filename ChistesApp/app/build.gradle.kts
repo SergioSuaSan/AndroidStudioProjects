@@ -51,8 +51,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-
-// ArchLifecycle
+    // ArchLifecycle
     implementation("androidx.lifecycle:lifecycle-extensions:2.2.0")
     kapt ("androidx.lifecycle:lifecycle-compiler:2.2.0")
 //Retrofit2

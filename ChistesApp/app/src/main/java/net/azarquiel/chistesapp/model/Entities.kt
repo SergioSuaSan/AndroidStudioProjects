@@ -9,30 +9,25 @@ data class Usuario (
 ): Serializable
 
 data class Categoria (
-    var id: String,
-    var nombre: String,
+    var id:String,
+    var nombre: String
 ): Serializable
-
 data class Chiste (
-    var id: String,
+    var id:String,
     var idcategoria: String,
-    var contenido: String,
-): Serializable
-
+    var contenido:String
+):Serializable
 data class Punto (
-    var id: String,
+    var id:String,
     var idchiste: String,
-    var puntos: String,
-): Serializable
+    var puntos:String
+):Serializable
 
 data class Result(
     val categorias: List<Categoria>,
     val chistes: List<Chiste>,
     val usuario: Usuario,
-    val punto: Punto,
-    val id: String,
-    val chiste: Chiste,
-    val avg: String,
-
-
+    val chiste:Chiste,
+    val punto:Punto,
+    val avg:String
 )

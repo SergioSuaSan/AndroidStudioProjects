@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="azulo">#04118D</color>
-    <color name="morado">#601B86</color>
+    <color name="azulo">#0E2960</color>
+    <color name="morado">#39265B</color>
+    <color name="azulc">#75DDEF</color>
 </resources>

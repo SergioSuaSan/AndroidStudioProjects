@@ -11,18 +11,17 @@ import net.azarquiel.chistesapp.model.Usuario
 /**
  * Created by Paco Pulido.
  */
-interface ChisteService {
+interface ChistesService {
     // No necesita nada para trabajar
     @GET("categorias")
     fun getCategorias(): Deferred<Response<Result>>
 
     // variable idbar en la ruta de la url => @Path
     @GET("categoria/{idcategoria}/chistes")
-    fun getChistesPorCategoria(@Path("idcategoria") idcategoria: String): Deferred<Response<Result>>
+    fun getChistesByCategoria(@Path("idcategoria") idcategoria: String): Deferred<Response<Result>>
 
-    // variable idbar en la ruta de la url => @Path
     @GET("chiste/{idchiste}/avgpuntos")
-    fun getMedia(@Path("idchiste") idchiste: String): Deferred<Response<Result>>
+    fun getAvgChiste(@Path("idchiste") idchiste: String): Deferred<Response<Result>>
 
     // nick y pass variables sueltas en la url?nick=paco&pass=paco => @Query
     @GET("usuario")
@@ -34,15 +33,14 @@ interface ChisteService {
     @POST("usuario")
     fun saveUsuario(@Body usuario: Usuario): Deferred<Response<Result>>
 
-    // post con objeto => @Body
     @POST("chiste")
     fun saveChiste(@Body chiste: Chiste): Deferred<Response<Result>>
 
     // post con variables sueltas => @Field y Obligatorio @FormUrlEncoded
-    @FormUrlEncoded
+
     @POST("chiste/{idchiste}/punto")
     fun savePuntos(@Path("idchiste") idchiste: String,
-                   @Body punto: Punto): Deferred<Response<Result>>
+                   @Body punto:Punto): Deferred<Response<Result>>
 
 // ……..   resto de métodos de la interfaz ………..
 }

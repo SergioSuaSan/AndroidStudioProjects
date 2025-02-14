@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object WebAccess {
 
-    val chisteService : ChisteService by lazy {
+    val chistesService : ChistesService by lazy {
 
         val retrofit = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -18,8 +18,6 @@ object WebAccess {
             .baseUrl("http://www.ies-azarquiel.es/paco/apichistes/")
             .build()
 
-        return@lazy retrofit.create(ChisteService::class.java)
+        return@lazy retrofit.create(ChistesService::class.java)
     }
 }
-
-

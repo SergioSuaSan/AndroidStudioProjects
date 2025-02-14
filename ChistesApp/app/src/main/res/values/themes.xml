@@ -3,7 +3,15 @@
     <style name="Base.Theme.ChistesApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/chicle</item>
+        <item name="toolbarStyle">@style/MyToolbar</item>
+
+    </style>
+    <style name="MyToolbar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="titleTextColor">@color/white</item>
     </style>
 
     <style name="Theme.ChistesApp" parent="Base.Theme.ChistesApp" />
+
+    <color name="chicle">#E91E63</color>
 </resources>

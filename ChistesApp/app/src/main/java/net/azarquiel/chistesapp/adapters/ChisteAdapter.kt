@@ -14,9 +14,9 @@ import net.azarquiel.chistesapp.model.Chiste
 /**
  * Created by pacopulido on 9/10/18.
  */
-class ChistesAdapter(val context: Context,
-                     val layout: Int
-                    ) : RecyclerView.Adapter<ChistesAdapter.ViewHolder>() {
+class ChisteAdapter(val context: Context,
+                    val layout: Int
+                    ) : RecyclerView.Adapter<ChisteAdapter.ViewHolder>() {
 
     private var dataList: List<Chiste> = emptyList()
 
@@ -47,16 +47,14 @@ class ChistesAdapter(val context: Context,
             // al que hay que poner los datos del objeto dataItem
             val ivchisterow = itemView.findViewById(R.id.ivchisterow) as ImageView
             val tvchisterow = itemView.findViewById(R.id.tvchisterow) as TextView
-
-            tvchisterow.text = "${dataItem.contenido.substring(0,20)}..."
-
-
+            tvchisterow.text = dataItem.contenido
+            if (dataItem.contenido.length > 20)
+                tvchisterow.text = "${dataItem.contenido.substring(0,20)}..."
 
             // foto de internet a traves de Picasso
-            Picasso.get().load("http://www.ies-azarquiel.es/paco/apichistes/img/${dataItem.id}.png").into(ivchisterow)
+            Picasso.get().load("http://www.ies-azarquiel.es/paco/apichistes/img/${dataItem.idcategoria}.png").into(ivchisterow)
 
             itemView.tag = dataItem
-
         }
 
     }
