@@ -98,8 +98,8 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         tvTitle.setPadding(0,30,0,30)
         tvTitle.gravity = Gravity.CENTER
         tvTitle.textSize = 20.0F
-        tvTitle.setTextColor(getColor(R.color.azulc))
-        tvTitle.setBackgroundColor(getColor(R.color.azulo))
+        tvTitle.setTextColor(getColor(R.color.azulo))
+        tvTitle.setBackgroundColor(getColor(R.color.azulc))
         builder.setCustomTitle(tvTitle)
         val ll = LinearLayout(this)
         ll.setPadding(30,30,30,30)
@@ -128,7 +128,9 @@ class MainActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         builder.setView(ll)
 
         builder.setPositiveButton("Aceptar") { dialog, which ->
-            login(etnick.text.toString(), etpass.text.toString())
+            if (etnick.text.toString().isNotEmpty() && etpass.text.toString().isNotEmpty()) {
+                login(etnick.text.toString(), etpass.text.toString())
+            }
         }
 
         builder.setNegativeButton("Cancelar") { dialog, which ->
