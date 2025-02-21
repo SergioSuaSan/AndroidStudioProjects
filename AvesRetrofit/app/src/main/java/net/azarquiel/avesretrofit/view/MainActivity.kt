@@ -1,32 +1,32 @@
-package net.azarquiel.parquesnretrofitjpc.view
+package net.azarquiel.avesretrofit.view
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import net.azarquiel.parquesnretrofitjpc.navigation.AppNavigation
-import net.azarquiel.parquesnretrofitjpc.ui.theme.ParquesNRetroFitJPCTheme
-import net.azarquiel.parquesnretrofitjpc.viewmodel.MainViewModel
+import net.azarquiel.avesretrofit.ui.theme.AvesRetrofitTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        // share viewModel aquí. Fuera de los composables
-        val viewModel = MainViewModel(this)
-        Log.d("paco", "KKKKKKKK")
         setContent {
-            ParquesNRetroFitJPCTheme {
-                AppNavigation(viewModel)
-
+            AvesRetrofitTheme {
+                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                    Greeting(
+                        name = "Android",
+                        modifier = Modifier.padding(innerPadding)
+                    )
+                }
             }
         }
-
     }
 }
 
@@ -41,7 +41,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    ParquesNRetroFitJPCTheme {
+    AvesRetrofitTheme {
         Greeting("Android")
     }
 }

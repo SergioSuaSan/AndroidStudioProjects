@@ -46,7 +46,7 @@ fun DetailScreen(navController: NavHostController, viewModel: MainViewModel) {
     val parque = navController.previousBackStackEntry?.savedStateHandle?.get<Parques>("parque")
     parque?.let {
       //Qué pongo aqúi
-        val likes = remember { mutableStateOf(parque.likes) }
+        val likes = remember { mutableStateOf(it.likes) }
         Log.d("paco", "DetailScreen: ${parque.likes}")
 
         Scaffold(
@@ -55,14 +55,14 @@ fun DetailScreen(navController: NavHostController, viewModel: MainViewModel) {
                 DetailContent(padding, viewModel, parque)
             },
             floatingActionButton = {
-                fab(parque, viewModel)
+                fab(parque, viewModel, likes)
             }
         )
     }
 }
 
 @Composable
-fun fab(parque: Parques?, viewModel: MainViewModel) {
+fun fab(parque: Parques?, viewModel: MainViewModel, likes: MutableState<Int>) {
 
 
 
@@ -70,6 +70,7 @@ fun fab(parque: Parques?, viewModel: MainViewModel) {
         onClick = {
             if (parque != null) {
                 Log.d("paco", "fab: ${parque.likes}")
+                likes.value++
                 viewModel.sumaFav(parque)
 
 

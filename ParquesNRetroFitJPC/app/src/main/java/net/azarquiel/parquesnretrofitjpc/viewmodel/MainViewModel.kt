@@ -13,6 +13,7 @@ import net.azarquiel.parquesnretrofitjpc.view.MainActivity
 
 class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
+
     var viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
     val mainActivity by lazy { mainActivity }
     private val _comunidades = MutableLiveData<List<Comunidad>>()
@@ -26,7 +27,7 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
 
     init {
-         viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
+
         viewModel.getComunidades().observe(mainActivity) {
             it?.let {
                 _comunidades.value = it
