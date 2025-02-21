@@ -78,7 +78,9 @@ fun MasterContent(
         LazyColumn (
             modifier = Modifier.padding(16.dp)
         ){
+
             items(comunidades.value) {
+
                 CardComunidad(it, navController, viewModel)
             }
         }

@@ -26,7 +26,7 @@ interface ParqueService {
     // post con variables sueltas => @Field y Obligatorio @FormUrlEncoded
     @FormUrlEncoded
     @POST("parque/{idparque}/like")
-    fun darLike(@Path("idparque") idparque: Int): Deferred<Response<Result>>
+    fun darLike(@Field("idparque") idparque: Int): Deferred<Response<Result>>
 
 
 }

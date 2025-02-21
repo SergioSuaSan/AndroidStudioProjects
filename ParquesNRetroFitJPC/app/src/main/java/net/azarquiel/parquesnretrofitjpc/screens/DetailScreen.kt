@@ -1,5 +1,6 @@
 package net.azarquiel.parquesnretrofitjpc.screens
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,8 +21,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -41,27 +44,34 @@ import net.azarquiel.parquesnretrofitjpc.viewmodel.MainViewModel
 @Composable
 fun DetailScreen(navController: NavHostController, viewModel: MainViewModel) {
     val parque = navController.previousBackStackEntry?.savedStateHandle?.get<Parques>("parque")
+    parque?.let {
+      //Qué pongo aqúi
+        val likes = remember { mutableStateOf(parque.likes) }
+        Log.d("paco", "DetailScreen: ${parque.likes}")
 
-    Scaffold(
-        topBar = { DetailTopBar(navController, parque) },
-        content = { padding ->
-            DetailContent(padding, viewModel, parque)
-        },
-        floatingActionButton = {
-            fab(parque, viewModel)
-        }
-    )
+        Scaffold(
+            topBar = { DetailTopBar(navController, parque, likes) },
+            content = { padding ->
+                DetailContent(padding, viewModel, parque)
+            },
+            floatingActionButton = {
+                fab(parque, viewModel)
+            }
+        )
+    }
 }
 
 @Composable
 fun fab(parque: Parques?, viewModel: MainViewModel) {
 
-    var like = viewModel.likes.observeAsState(parque?.likes)
+
 
     FloatingActionButton(
         onClick = {
             if (parque != null) {
+                Log.d("paco", "fab: ${parque.likes}")
                 viewModel.sumaFav(parque)
+
 
             }
         }
@@ -76,7 +86,7 @@ fun fab(parque: Parques?, viewModel: MainViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailTopBar(navController: NavHostController, parque: Parques?) {
+fun DetailTopBar(navController: NavHostController, parque: Parques?, likes: MutableState<Int>) {
 
     TopAppBar(
         title = { parque?.let {
@@ -96,7 +106,7 @@ fun DetailTopBar(navController: NavHostController, parque: Parques?) {
                     modifier = Modifier.weight(2f).padding(8.dp)
                 ){
                     Text(
-                        text = it.likes.toString()
+                        text = likes.value.toString()
                     )
                     Image(
                         painter = painterResource(R.drawable.thumbs),

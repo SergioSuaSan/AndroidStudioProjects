@@ -1,11 +1,11 @@
 package net.azarquiel.parquesnretrofitjpc.viewmodel
 
-import androidx.compose.ui.graphics.Color
+import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import net.azarquiel.parquesnretrofitjpc.api.MainRepository
 import net.azarquiel.parquesnretrofitjpc.model.Comunidad
 import net.azarquiel.parquesnretrofitjpc.model.Imagen
 import net.azarquiel.parquesnretrofitjpc.model.Parques
@@ -13,9 +13,8 @@ import net.azarquiel.parquesnretrofitjpc.view.MainActivity
 
 class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
-
+    var viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
     val mainActivity by lazy { mainActivity }
-    val repository = MainRepository()
     private val _comunidades = MutableLiveData<List<Comunidad>>()
     val comunidades: LiveData<List<Comunidad>> = _comunidades
     private val _parques = MutableLiveData<List<Parques>>()
@@ -24,15 +23,16 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
     val imagenes: LiveData<List<Imagen>> = _imagenes
     private val _msg = MutableLiveData<String>()
     val msg: LiveData<String> = _msg
-    private val _likes = MutableLiveData<Int>()
-    val likes: LiveData<Int> = _likes
 
 
     init {
-        val viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
+         viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
         viewModel.getComunidades().observe(mainActivity) {
             it?.let {
                 _comunidades.value = it
+                val todas = ArrayList(it)
+                todas.add(0, Comunidad(0, "España"))
+                _comunidades.value = todas
             }
         }
 
@@ -42,17 +42,24 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
 
     fun getParquesByComunidad(id: Int) {
-        val viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
-        viewModel.getParquesByComunidad(id).observe(mainActivity) {
-            it?.let {
-                _parques.value = it
+        if (id == 0) {
+            viewModel.getParques().observe(mainActivity) {
+                it?.let {
+                    _parques.value = it
+                }
+            }
+        } else {
+            viewModel.getParquesByComunidad(id).observe(mainActivity) {
+                it?.let {
+                    _parques.value = it
+                }
             }
         }
 
     }
 
     fun getImagenesByParque(id: Int) {
-        val viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
+        viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
         viewModel.getImagenesByParque(id).observe(mainActivity) {
             it?.let {
                 _imagenes.value = it
@@ -63,15 +70,15 @@ class MainViewModel(mainActivity: MainActivity) : ViewModel() {
 
 
     fun sumaFav(parque: Parques) {
-
         parque.likes++
-        _likes.value = parque.likes
-        val viewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
+        Log.d("paco", "sumaFav: ${parque.likes}")
         viewModel.darLike(parque.id).observe(mainActivity) {
             it?.let {
                 _msg.value = it
+                Toast.makeText(mainActivity, "Gracias por tu like", Toast.LENGTH_SHORT).show()
             }
 
+            Log.d("paco", "sumaFavFinal: ${parque.likes}")
         }
 
     }
