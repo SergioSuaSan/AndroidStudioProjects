@@ -2,6 +2,7 @@ package net.azarquiel.avesretrofit.api
 
 
 import kotlinx.coroutines.Deferred
+import net.azarquiel.avesretrofit.model.Comentario
 import net.azarquiel.avesretrofit.model.Usuario
 import net.azarquiel.avesretrofit.model.Result
 import retrofit2.Response
@@ -37,7 +38,11 @@ interface AveService {
     // post con variables sueltas => @Field y Obligatorio @FormUrlEncoded
     @FormUrlEncoded
     @POST("recurso/{idrecurso}/comentario")
-    fun saveComentario(@Field("idrecurso") idrecurso: Int): Deferred<Response<Result>>
+    fun saveComentario(@Path("idrecurso") idrecurso: Int,
+                       @Field("usuario") usuario: Int,
+                       @Field("fecha") fecha: String,
+                       @Field("comentario") comentario: String
+    ): Deferred<Response<Result>>
 
 }
 

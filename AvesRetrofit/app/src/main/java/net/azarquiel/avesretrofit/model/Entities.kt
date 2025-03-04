@@ -1,5 +1,6 @@
 package net.azarquiel.avesretrofit.model
 
+import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 import java.util.Date
 
@@ -18,9 +19,10 @@ data class Recurso (
 
 data class Comentario (
     var id: Int,
-    var usuario: Int,
+    @SerializedName("nick")
+    var usuario: String,
     var recurso: Int,
-    var fecha: Date,
+    var fecha: String,
     var comentario: String,
 ): Serializable
 
@@ -43,7 +45,11 @@ data class Result(
     val recursos: List<Recurso>,
     val comentarios: List<Comentario>,
     val usuario: Usuario,
+    val usuarios: List<Usuario>,
+    val comentario: Comentario,
+    /*
     val avg: String,
     val msg: String
+     */
 )
 
