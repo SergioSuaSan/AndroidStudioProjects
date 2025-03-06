@@ -1,6 +1,8 @@
 package net.azarquiel.avesretrofit.screens
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,10 +50,10 @@ import net.azarquiel.avesretrofit.model.Comentario
 import net.azarquiel.avesretrofit.model.Recurso
 import net.azarquiel.avesretrofit.model.Zona
 import net.azarquiel.avesretrofit.viewmodel.MainViewModel
+import java.time.LocalDateTime
 
 
-
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RecursoDetailScreen(navController: NavHostController, viewModel: MainViewModel) {
     val zona = navController.previousBackStackEntry?.savedStateHandle?.get<Zona>("zona")
@@ -116,6 +118,7 @@ fun RecursoDetailTopBar(navController: NavHostController, viewModel: MainViewMod
 }
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun RecursoDetailContent(
     padding: PaddingValues,
@@ -158,6 +161,7 @@ fun RecursoDetailContent(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun AlertDialogSample(viewModel: MainViewModel, recurso: Recurso?) {
     MaterialTheme {
@@ -185,16 +189,11 @@ fun AlertDialogSample(viewModel: MainViewModel, recurso: Recurso?) {
                     confirmButton = {
                         Button(
                             onClick = {
-                                val comentario = Comentario(-1,
-                                    usuario?.nick ?: "1",
-                                    recurso!!.id,
-                                    "04-03-2025",
-                                    msg.value
-                                )
 
-                                    Log.d("TAG", "AlertDialogSample: $comentario, $recurso, $usuario")
-                                if (usuario != null) {
-                                    viewModel.insertarComentario(recurso.id, 13, comentario.fecha, comentario.comentario)
+                                if (usuario != null && recurso != null) {
+
+                                        viewModel.insertarComentario(recurso.id, usuario!!.idusuario, LocalDateTime.now().toString(), msg.value)
+
                                 }
                                 viewModel.setDialog(false)
                             })

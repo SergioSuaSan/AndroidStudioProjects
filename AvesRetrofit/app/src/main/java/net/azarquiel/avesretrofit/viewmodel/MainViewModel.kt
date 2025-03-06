@@ -71,7 +71,7 @@ class MainViewModel(mainActivity: MainActivity) {
 
     fun insertarComentario(idRecurso: Int, idUsuario: Int, fecha: String, comentario: String) {
         dataviewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
-        if (_usuario.value != null) {
+        if (_usuario.value != null && _usuario.value!!.idusuario > 0) {
             dataviewModel.saveComentario(idRecurso, idUsuario, fecha, comentario)
                 .observe(mainActivity) {
                     // ✅ Obtener la lista actual de comentarios
@@ -93,8 +93,10 @@ class MainViewModel(mainActivity: MainActivity) {
         dataviewModel = ViewModelProvider(mainActivity)[DataViewModel::class.java]
         Log.d("TAG", "login: $nick, $pass")
         if (nick != "" && pass != "") {
+            Log.d("TAG", "login ACABO DE ENTRAR: $nick, $pass")
             dataviewModel.getDataUsuarioPorNickPass(nick, pass)
                 .observe(mainActivity) { usuarioExistente ->
+                    Log.d("TAG", "login: $usuarioExistente")
                     if (usuarioExistente != null && usuarioExistente.idusuario != 0) {
                         _usuario.postValue(usuarioExistente)
                         Log.d("TAG", "Usuario encontrado en API: $usuarioExistente")
@@ -103,6 +105,7 @@ class MainViewModel(mainActivity: MainActivity) {
                         val nuevoUsuario = Usuario(-1, nick, pass)
                         dataviewModel.saveUsuario(nuevoUsuario)
                             .observe(mainActivity) { usuarioCreado ->
+                                Log.d("TAG", "Usuario creado: $usuarioCreado")
                                 usuarioCreado?.let {
                                     _usuario.postValue(it)
                                     Log.d("TAG", "Nuevo usuario creado: $it")
@@ -114,6 +117,13 @@ class MainViewModel(mainActivity: MainActivity) {
 
         }
     }
+
+    fun logout() {
+        _usuario.value = Usuario(-1, "", "")
+    }
+
+
+
 }
 
 
