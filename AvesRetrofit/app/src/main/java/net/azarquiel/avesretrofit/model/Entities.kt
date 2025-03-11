@@ -5,6 +5,7 @@ import java.io.Serializable
 import java.util.Date
 
 data class Usuario (
+    @SerializedName("id")
     var idusuario: Int,
     var nick: String,
     var pass: String

@@ -88,7 +88,10 @@ fun MasterTopBar(viewModel: MainViewModel) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_logout),
                     contentDescription = "Logo",
-                    modifier = Modifier.size(50.dp).clickable {  },
+                    modifier = Modifier.size(50.dp).clickable {
+                        viewModel.logout()
+                        Log.d("TAG", "MasterTopBar: ${viewModel.usuario.value}")
+                    },
                     alignment = Alignment.CenterEnd,
                 )
             }

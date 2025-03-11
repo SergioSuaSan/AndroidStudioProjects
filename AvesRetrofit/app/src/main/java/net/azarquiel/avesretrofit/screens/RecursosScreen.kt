@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -14,9 +15,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,7 +33,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -41,14 +44,13 @@ import net.azarquiel.avesretrofit.model.Recurso
 import net.azarquiel.avesretrofit.model.Zona
 import net.azarquiel.avesretrofit.navegation.AppScreens
 import net.azarquiel.avesretrofit.viewmodel.MainViewModel
-import androidx.compose.foundation.Image as Image
 
 
 @Composable
 fun RecursosScreen(navController: NavHostController, viewModel: MainViewModel) {
     val zona = navController.previousBackStackEntry?.savedStateHandle?.get<Zona>("zona")
     Scaffold(
-        topBar = { RecursosTopBar(zona) },
+        topBar = { RecursosTopBar(zona, navController) },
         content = { padding ->
             RecursosContent(padding, navController, viewModel)
         }
@@ -58,9 +60,19 @@ fun RecursosScreen(navController: NavHostController, viewModel: MainViewModel) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun RecursosTopBar(zona: Zona?) {
+fun RecursosTopBar(zona: Zona?, navController: NavHostController) {
     TopAppBar(
         title = {
+            Row(
+                horizontalArrangement = Arrangement.Start,
+                modifier = Modifier
+            ) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                    contentDescription = "",
+                    Modifier.clickable {
+                        navController.popBackStack()
+                    })
+                Spacer(modifier = Modifier.padding(horizontal = 5.dp))
 
                 Text(
                     text = "Recursos ${zona?.nombre}",
@@ -68,6 +80,8 @@ fun RecursosTopBar(zona: Zona?) {
                     fontWeight = FontWeight.Bold,
 
                 )
+            }
+
 
             },
         colors = topAppBarColors(
