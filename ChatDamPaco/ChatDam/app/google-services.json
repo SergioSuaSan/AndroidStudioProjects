@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "610070480018",
+    "project_id": "chatdam-5d518",
+    "storage_bucket": "chatdam-5d518.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610070480018:android:1426e7e0d93b817943524b",
+        "android_client_info": {
+          "package_name": "net.azarquiel.chatdam"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAJym2ji11tu-8zla6V_L8TulTvSdk-IJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
